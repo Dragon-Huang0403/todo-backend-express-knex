@@ -1,5 +1,6 @@
 const users = require('../database/user-queries.js');
 const psUtils = require('../utils/password.js');
+const jwtUtils = require('../utils/jwt.js');
 const Joi = require('joi');
 
 function authUserLogin() {
@@ -27,7 +28,8 @@ function authUserLogin() {
       return res.status(401).send({ error: 'Invalid password' });
     }
 
-    return res.send({ token: 'fake-token' });
+    const token = jwtUtils.createToken(user.id);
+    return res.send({ token });
   };
 }
 
