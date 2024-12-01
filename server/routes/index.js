@@ -1,4 +1,5 @@
 const userRoutes = require('./users.js');
+const authRoutes = require('./auth.js');
 
 function addErrorReporting(name, func) {
   return async function (req, res) {
@@ -15,6 +16,7 @@ function addErrorReporting(name, func) {
 
 const toExport = {
   createUser: userRoutes.createUser(),
+  authUserLogin: authRoutes.authUserLogin(),
 };
 
 for (let route in toExport) {

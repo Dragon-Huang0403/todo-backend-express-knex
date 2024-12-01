@@ -5,7 +5,7 @@ async function get(id) {
   return results;
 }
 
-async function getByEmail(email) {
+async function findByEmail(email) {
   return knex('users').where({ email }).first();
 }
 
@@ -18,6 +18,6 @@ async function create({ username, email, hashed_password }) {
 
 module.exports = {
   get,
-  getByEmail,
+  findByEmail,
   create,
 };
