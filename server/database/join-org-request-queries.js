@@ -8,12 +8,20 @@ async function get({ user_id, organization_id }) {
   return knex('join_org_requests').where({ user_id, organization_id }).first();
 }
 
-async function remove({ user_id, organization_id }) {
-  return knex('join_org_requests').where({ user_id, organization_id }).del();
+async function acceptInvitation({ user_id, organization_id }) {
+  return knex.transaction(async (trx) => {
+    await trx('user_organization_bindings').insert({
+      user_id: user_id,
+      organization_id: organization_id,
+      role: 'member',
+    });
+
+    return trx('join_org_requests').where({ user_id, organization_id }).del();
+  });
 }
 
 module.exports = {
   create,
   get,
-  remove,
+  acceptInvitation,
 };

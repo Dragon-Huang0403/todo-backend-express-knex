@@ -21,6 +21,7 @@ const toExport = {
   createOrganization: orgRoutes.createOrganization(),
   listOrganizations: orgRoutes.listOrganizations(),
   createJoinOrgInvitation: orgRoutes.createJoinOrgInvitation(),
+  acceptInvitation: orgRoutes.acceptInvitation(),
 };
 
 for (let route in toExport) {

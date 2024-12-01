@@ -22,6 +22,11 @@ app.post(
   middlewares.authMiddleware,
   routes.createJoinOrgInvitation
 );
+app.post(
+  '/v1/organizations/:organizationId/accept',
+  middlewares.authMiddleware,
+  routes.acceptInvitation
+);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => console.log(`Listening on port ${port}`));

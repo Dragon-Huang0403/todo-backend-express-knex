@@ -63,8 +63,32 @@ function createJoinOrgInvitation() {
   };
 }
 
+function acceptInvitation() {
+  return async function (req, res) {
+    const user = req.user;
+    const { organizationId } = req.params;
+
+    const result = await joinOrgRequests.get({
+      user_id: user.userId,
+      organization_id: organizationId,
+    });
+
+    if (!result) {
+      return res.status(404).send({ error: 'Not found' });
+    }
+
+    await joinOrgRequests.acceptInvitation({
+      user_id: user.userId,
+      organization_id: organizationId,
+    });
+
+    res.status(200).send({ success: true });
+  };
+}
+
 module.exports = {
   createOrganization,
   listOrganizations,
   createJoinOrgInvitation,
+  acceptInvitation,
 };
