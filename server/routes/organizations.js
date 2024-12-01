@@ -1,4 +1,6 @@
 const organizations = require('../database/organization-queries.js');
+const joinOrgRequests = require('../database/join-org-request-queries.js');
+
 const Joi = require('joi');
 
 function createOrganization() {
@@ -29,7 +31,40 @@ function listOrganizations() {
   };
 }
 
+function createJoinOrgInvitation() {
+  const requestSchema = Joi.object({
+    userId: Joi.number().required(),
+  });
+
+  return async function (req, res) {
+    const { error, value } = requestSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send({ error: error.message });
+    }
+
+    const user = req.user;
+
+    const { organizationId } = req.params;
+    const { role } = await organizations.getUserRole({
+      user_id: user.userId,
+      organization_id: organizationId,
+    });
+
+    if (role !== 'admin') {
+      return res.status(403).send({ error: 'Forbidden' });
+    }
+
+    await joinOrgRequests.create({
+      user_id: value.userId,
+      organization_id: organizationId,
+    });
+
+    res.status(200).send({ success: true });
+  };
+}
+
 module.exports = {
   createOrganization,
   listOrganizations,
+  createJoinOrgInvitation,
 };

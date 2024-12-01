@@ -22,7 +22,15 @@ async function all() {
   return knex('organizations');
 }
 
+async function getUserRole({ user_id, organization_id }) {
+  return knex('user_organization_bindings')
+    .where({ user_id, organization_id })
+    .select('role')
+    .first();
+}
+
 module.exports = {
   create,
   all,
+  getUserRole,
 };
