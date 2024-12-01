@@ -22,6 +22,14 @@ function createOrganization() {
   };
 }
 
+function listOrganizations() {
+  return async function (_, res) {
+    const organizationsList = await organizations.all();
+    res.send(organizationsList);
+  };
+}
+
 module.exports = {
   createOrganization,
+  listOrganizations,
 };

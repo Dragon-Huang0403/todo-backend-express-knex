@@ -19,6 +19,7 @@ const toExport = {
   createUser: userRoutes.createUser(),
   authUserLogin: authRoutes.authUserLogin(),
   createOrganization: orgRoutes.createOrganization(),
+  listOrganizations: orgRoutes.listOrganizations(),
 };
 
 for (let route in toExport) {
