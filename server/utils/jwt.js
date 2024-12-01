@@ -14,7 +14,7 @@ const JWT_EXPIRATION = process.env.JWT_EXPIRATION;
  * @returns {string} The JWT token
  */
 function createToken(userId) {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+  return jwt.sign({ userId }, JWT_SECRET, {
     expiresIn: JWT_EXPIRATION,
     algorithm: 'HS256',
   });
@@ -26,7 +26,7 @@ function createToken(userId) {
  * @returns {AuthPayload} The decoded token
  */
 function verifyToken(token) {
-  return jwt.verify(token, process.env.JWT_SECRET);
+  return jwt.verify(token, JWT_SECRET);
 }
 
 module.exports = {
