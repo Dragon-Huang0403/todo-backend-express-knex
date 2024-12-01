@@ -14,7 +14,7 @@ function addErrorReporting(name, func) {
 }
 
 const toExport = {
-  createUser: userRoutes.createUser,
+  createUser: userRoutes.createUser(),
 };
 
 for (let route in toExport) {
