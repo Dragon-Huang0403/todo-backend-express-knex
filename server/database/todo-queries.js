@@ -1,39 +1,37 @@
-const knex = require("./connection.js");
+const knex = require('./connection.js');
 
-async function all() {
-    return knex('todos');
+async function all(organization_id) {
+  return knex('todos').where({ organization_id });
 }
 
 async function get(id) {
-    const results = await knex('todos').where({ id });
-    return results[0];
+  const results = await knex('todos').where({ id });
+  return results[0];
 }
 
-async function create(title, order) {
-    const results = await knex('todos').insert({ title, order }).returning('*');
-    return results[0];
+async function create({ title, assignee_id, organization_id }) {
+  const results = await knex('todos')
+    .insert({ title, assignee_id, organization_id })
+    .returning('*');
+  return results[0];
 }
 
-async function update(id, properties) {
-    const results = await knex('todos').where({ id }).update({ ...properties }).returning('*');
-    return results[0];
+async function update({ id, title, assignee_id, completed }) {
+  const results = await knex('todos')
+    .where({ id })
+    .update({ title, assignee_id, completed })
+    .returning('*');
+  return results[0];
 }
 
-// delete is a reserved keyword
-async function del(id) {
-    const results = await knex('todos').where({ id }).del().returning('*');
-    return results[0];
-}
-
-async function clear() {
-    return knex('todos').del().returning('*');
+async function remove(id) {
+  await knex('todos').where({ id }).del();
 }
 
 module.exports = {
-    all,
-    get,
-    create,
-    update,
-    delete: del,
-    clear
-}
+  all,
+  get,
+  create,
+  update,
+  remove,
+};

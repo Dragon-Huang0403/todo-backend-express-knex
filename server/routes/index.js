@@ -1,6 +1,7 @@
 const userRoutes = require('./users.js');
 const authRoutes = require('./auth.js');
 const orgRoutes = require('./organizations.js');
+const todoRoutes = require('./todos.js');
 
 function addErrorReporting(name, func) {
   return async function (req, res) {
@@ -22,6 +23,11 @@ const toExport = {
   listOrganizations: orgRoutes.listOrganizations(),
   createJoinOrgInvitation: orgRoutes.createJoinOrgInvitation(),
   acceptInvitation: orgRoutes.acceptInvitation(),
+  createTodo: todoRoutes.createTodo(),
+  getTodo: todoRoutes.getTodo(),
+  listTodos: todoRoutes.listTodos(),
+  updateTodo: todoRoutes.updateTodo(),
+  deleteTodo: todoRoutes.deleteTodo(),
 };
 
 for (let route in toExport) {

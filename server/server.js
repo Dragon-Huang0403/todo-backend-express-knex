@@ -28,6 +28,41 @@ app.post(
   routes.acceptInvitation
 );
 
+app.post(
+  '/v1/organizations/:organizationId/todos',
+  middlewares.authMiddleware,
+  middlewares.authzMiddleware,
+  routes.createTodo
+);
+
+app.get(
+  '/v1/organizations/:organizationId/todos/:todoId',
+  middlewares.authMiddleware,
+  middlewares.authzMiddleware,
+  routes.getTodo
+);
+
+app.get(
+  '/v1/organizations/:organizationId/todos',
+  middlewares.authMiddleware,
+  middlewares.authzMiddleware,
+  routes.listTodos
+);
+
+app.patch(
+  '/v1/organizations/:organizationId/todos/:todoId',
+  middlewares.authMiddleware,
+  middlewares.authzMiddleware,
+  routes.updateTodo
+);
+
+app.delete(
+  '/v1/organizations/:organizationId/todos/:todoId',
+  middlewares.authMiddleware,
+  middlewares.authzMiddleware,
+  routes.deleteTodo
+);
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => console.log(`Listening on port ${port}`));
 }

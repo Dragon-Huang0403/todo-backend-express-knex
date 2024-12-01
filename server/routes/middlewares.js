@@ -1,3 +1,4 @@
+const organizations = require('../database/organization-queries.js');
 const jwtUtils = require('../utils/jwt.js');
 
 /**
@@ -26,6 +27,25 @@ function authMiddleware(req, res, next) {
   }
 }
 
+/**
+ * Middleware to check if the user is in the organization
+ */
+async function authzMiddleware(req, res, next) {
+  const user = req.user;
+  const organizationId = req.params.organizationId;
+  const role = await organizations.getUserRole({
+    user_id: user.userId,
+    organization_id: organizationId,
+  });
+
+  if (!role) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
+  next();
+}
+
 module.exports = {
   authMiddleware,
+  authzMiddleware,
 };
