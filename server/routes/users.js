@@ -1,4 +1,5 @@
 const users = require('../database/user-queries.js');
+const psUtils = require('../utils/password.js');
 
 function userResponse(user) {
   return {
@@ -12,10 +13,12 @@ function userResponse(user) {
 async function createUser(req, res) {
   const { username, email, password } = req.body;
 
+  const hashedPassword = await psUtils.hashPassword(password);
+
   const result = await users.create({
     username,
     email,
-    hashed_password: password,
+    hashed_password: hashedPassword,
   });
   return res.send(userResponse(result));
 }
