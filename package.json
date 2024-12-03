@@ -4,11 +4,11 @@
   "scripts": {
     "heroku-postbuild": "cd server && npx knex migrate:latest",
     "client": "cd client && yarn start",
-    "server": "cd server && nodemon server.js",
+    "server": "cd server && nodemon main.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "test": "cd server && jest",
     "test:watch": "cd server && jest --watch",
-    "start": "cd server && node server.js"
+    "start": "cd server && node main.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
