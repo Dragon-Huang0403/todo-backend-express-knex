@@ -4,67 +4,22 @@
   Knex also allows for easy switching between databases. 
   But the .returning() method will only work for PostgreSQL, MSSQL, and Oracle databases.
 */
-require('dotenv').config();
+const config = require('./config/config.js');
+
 module.exports = {
-
-  test: {
-    client: 'postgresql',
-    connection: {
-      database: process.env.PGDATABASE,
-      user:     process.env.PGUSER,
-      password: process.env.PGPASSWORD
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
+  client: 'postgresql',
+  connection: {
+    host: config.PG_HOST,
+    port: config.PG_PORT,
+    user: config.PG_USER,
+    password: config.PG_PASSWORD,
+    database: config.PG_DATABASE,
   },
-
-  development: {
-    client: 'postgresql',
-    connection: {
-      database: process.env.PGDATABASE,
-      user:     process.env.PGUSER,
-      password: process.env.PGPASSWORD
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
+  pool: {
+    min: config.PG_POOL_MIN,
+    max: config.PG_POOL_MAX,
   },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
+  migrations: {
+    tableName: config.PG_MIGRATION_TABLE_NAME,
   },
-
-  production: {
-    client: 'postgresql',
-    connection: process.env.DATABASE_URL,
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
-
 };

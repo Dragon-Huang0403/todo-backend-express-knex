@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
-
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRATION = process.env.JWT_EXPIRATION;
+const config = require('../config/config.js');
 
 /**
  * @typedef {Object} AuthPayload
@@ -14,8 +12,8 @@ const JWT_EXPIRATION = process.env.JWT_EXPIRATION;
  * @returns {string} The JWT token
  */
 function createToken(userId) {
-  return jwt.sign({ userId }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRATION,
+  return jwt.sign({ userId }, config.JWT_SECRET, {
+    expiresIn: config.JWT_EXPIRATION,
     algorithm: 'HS256',
   });
 }
@@ -26,7 +24,7 @@ function createToken(userId) {
  * @returns {AuthPayload} The decoded token
  */
 function verifyToken(token) {
-  return jwt.verify(token, JWT_SECRET);
+  return jwt.verify(token, config.JWT_SECRET);
 }
 
 module.exports = {
