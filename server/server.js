@@ -2,6 +2,10 @@ const app = require('./server-config.js');
 const routes = require('./routes/index.js');
 const middlewares = require('./routes/middlewares.js');
 
+app.get('/health', (_, res) => {
+  res.send({ status: 'ok' });
+});
+
 app.post('/v1/users', routes.createUser);
 app.post('/v1/auth/login', routes.authUserLogin);
 
