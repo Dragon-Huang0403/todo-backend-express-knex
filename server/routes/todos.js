@@ -22,7 +22,7 @@ function createTodo() {
       assignee_id: value.assignee_id,
       organization_id: organizationId,
     });
-    return res.send(result);
+    return res.status(201).send(result);
   };
 }
 

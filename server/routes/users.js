@@ -33,7 +33,7 @@ function createUser() {
         email: value.email,
         hashed_password: hashedPassword,
       });
-      return res.send(userResponse(result));
+      return res.status(201).send(userResponse(result));
     } catch (err) {
       if (err instanceof DatabaseError) {
         if (err.code === '23505') {
