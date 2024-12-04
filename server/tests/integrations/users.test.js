@@ -63,7 +63,7 @@ describe('POST /v1/users, create an user', function () {
     expect(response.body).toHaveProperty('error');
   });
 
-  it('should return 400 if username is too short', async () => {
+  it('should return 400 if request body is not correct', async () => {
     const response = await request(app).post('/v1/users').send({});
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('error');
