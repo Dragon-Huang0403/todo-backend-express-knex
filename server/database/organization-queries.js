@@ -18,8 +18,15 @@ async function create({ name, owner_id }) {
   return organization;
 }
 
-async function all() {
-  return knex('organizations');
+async function listByUserId(user_id) {
+  return knex('organizations')
+    .join(
+      'user_organization_bindings',
+      'organizations.id',
+      'user_organization_bindings.organization_id'
+    )
+    .where('user_organization_bindings.user_id', user_id)
+    .select('organizations.*');
 }
 
 async function getUserRole({ user_id, organization_id }) {
@@ -31,6 +38,6 @@ async function getUserRole({ user_id, organization_id }) {
 
 module.exports = {
   create,
-  all,
+  listByUserId,
   getUserRole,
 };

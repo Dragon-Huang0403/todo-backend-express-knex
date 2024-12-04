@@ -25,8 +25,9 @@ function createOrganization() {
 }
 
 function listOrganizations() {
-  return async function (_, res) {
-    const organizationsList = await organizations.all();
+  return async function (req, res) {
+    const user = req.user;
+    const organizationsList = await organizations.listByUserId(user.userId);
     res.send(organizationsList);
   };
 }
