@@ -25,13 +25,15 @@ function randomString(length) {
  */
 async function prepareUser(email, password) {
   const hashedPassword = await psUtils.hashPassword(password);
-  const user = await knex('users').insert({
-    username: randomString(10),
-    email: email,
-    hashed_password: hashedPassword,
-  });
+  const result = await knex('users')
+    .insert({
+      username: randomString(10),
+      email: email,
+      hashed_password: hashedPassword,
+    })
+    .returning('id');
 
-  return user.id;
+  return result[0].id;
 }
 
 module.exports = {
