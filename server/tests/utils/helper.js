@@ -36,7 +36,31 @@ async function prepareUser(email, password) {
   return result[0].id;
 }
 
+/**
+ * Prepare an organization in the database
+ * @param {string} name - The name of the organization.
+ * @param {number} owner_id - The ID of the owner of the organization.
+ * @returns {Promise<number>} The ID of the organization
+ */
+async function prepareOrganization(name, owner_id) {
+  const result = await knex('organizations')
+    .insert({
+      name,
+      owner_id,
+    })
+    .returning('id');
+
+  await knex('user_organization_bindings').insert({
+    user_id: owner_id,
+    organization_id: result[0].id,
+    role: 'admin',
+  });
+
+  return result[0].id;
+}
+
 module.exports = {
   randomString,
   prepareUser,
+  prepareOrganization,
 };
