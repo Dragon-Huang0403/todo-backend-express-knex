@@ -5,19 +5,19 @@ const dbUtils = require('../utils/db.js');
 const helper = require('../utils/helper.js');
 const jwtUtils = require('../../utils/jwt.js');
 
+beforeAll(async () => {
+  await dbUtils.autoMigration();
+});
+
+beforeEach(async () => {
+  await dbUtils.deleteAllTables();
+});
+
+afterAll(async () => {
+  await knex.destroy();
+});
+
 describe('POST /v1/auth/login, user login', function () {
-  beforeAll(async () => {
-    await dbUtils.autoMigration();
-  });
-
-  beforeEach(async () => {
-    await dbUtils.deleteAllTables();
-  });
-
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   const action = async (body) => {
     const response = await request(app).post('/v1/auth/login').send(body);
     return response;

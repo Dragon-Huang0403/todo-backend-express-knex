@@ -3,19 +3,19 @@ const app = require('../../server');
 const knex = require('../../database/connection.js');
 const dbUtils = require('../utils/db.js');
 
+beforeAll(async () => {
+  await dbUtils.autoMigration();
+});
+
+beforeEach(async () => {
+  await dbUtils.deleteAllTables();
+});
+
+afterAll(async () => {
+  await knex.destroy();
+});
+
 describe('POST /v1/users, create an user', function () {
-  beforeAll(async () => {
-    await dbUtils.autoMigration();
-  });
-
-  beforeEach(async () => {
-    await dbUtils.deleteAllTables();
-  });
-
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   const action = async () => {
     const response = await request(app).post('/v1/users').send({
       username: 'test-user',

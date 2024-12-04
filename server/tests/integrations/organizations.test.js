@@ -5,6 +5,18 @@ const helper = require('../utils/helper.js');
 const dbUtils = require('../utils/db.js');
 const jwtUtils = require('../../utils/jwt.js');
 
+beforeAll(async () => {
+  await dbUtils.autoMigration();
+});
+
+beforeEach(async () => {
+  await dbUtils.deleteAllTables();
+});
+
+afterAll(async () => {
+  await knex.destroy();
+});
+
 /**
  * Prepare a user and return the user id and token
  */
@@ -17,18 +29,6 @@ const prepareUser = async () => {
 };
 
 describe('POST /v1/organizations, create an organization', function () {
-  beforeAll(async () => {
-    await dbUtils.autoMigration();
-  });
-
-  beforeEach(async () => {
-    await dbUtils.deleteAllTables();
-  });
-
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   const action = async ({ token, body }) => {
     const response = await request(app)
       .post('/v1/organizations')
@@ -80,18 +80,6 @@ describe('POST /v1/organizations, create an organization', function () {
 });
 
 describe('GET /v1/organizations, list organizations', function () {
-  beforeAll(async () => {
-    await dbUtils.autoMigration();
-  });
-
-  beforeEach(async () => {
-    await dbUtils.deleteAllTables();
-  });
-
-  afterAll(async () => {
-    await knex.destroy();
-  });
-
   const action = async (token) => {
     const response = await request(app)
       .get('/v1/organizations')
