@@ -9,7 +9,7 @@ describe('POST /v1/users, create an user', function () {
   });
 
   beforeEach(async () => {
-    await dbUtils.truncateAllTables();
+    await dbUtils.deleteAllTables();
   });
 
   afterAll(async () => {

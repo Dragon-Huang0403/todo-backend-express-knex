@@ -2,9 +2,9 @@ const knex = require('../../database/connection.js');
 const config = require('../../config/config.js');
 
 /**
- * Truncate all tables in the database
+ * Delete data in all tables
  */
-async function truncateAllTables() {
+async function deleteAllTables() {
   const tables = await knex.raw(`
       SELECT tablename
       FROM pg_tables
@@ -16,7 +16,7 @@ async function truncateAllTables() {
       return;
     }
 
-    await knex.raw(`TRUNCATE TABLE "${row.tablename}" CASCADE;`);
+    await knex.raw(`DELETE FROM "${row.tablename}";`);
   });
 }
 
@@ -25,6 +25,6 @@ async function autoMigration() {
 }
 
 module.exports = {
-  truncateAllTables,
+  deleteAllTables,
   autoMigration,
 };
